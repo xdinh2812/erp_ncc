@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_tieu_chi" name="Nhà cung cấp" sequence="10"/>
+    <menuitem id="menu_tieu_chi_danh_gia" name="Tiêu chí đánh giá" parent="menu_tieu_chi" action="action_tieu_chi"/>
+
+    <menuitem id="menu_danh_gia_ncc" name="Đánh giá nhà cung cấp" parent="menu_tieu_chi" action="action_danh_gia_ncc"/>
+
+    <menuitem id="menu_thong_tin_ncc" name="Thống tin nhà cung cấp" parent="menu_tieu_chi" action="action_thong_tin_ncc"/>
+</odoo>

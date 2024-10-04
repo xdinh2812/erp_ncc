@@ -1,0 +1,34 @@
+<odoo>
+    <record id="view_tieuchi_form" model="ir.ui.view">
+        <field name="name">tieu.chi.dg.form</field>
+        <field name="model">tieu.chi.dg</field>
+        <field name="arch" type="xml">
+            <form string="Tiêu chí đánh giá">
+                <sheet>
+                    <group>
+                        <field name="ma_tc"/>
+                        <field name="ten_tc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tieuchi_tree" model="ir.ui.view">
+        <field name="name">tieu.chi.dg.tree</field>
+        <field name="model">tieu.chi.dg</field>
+        <field name="arch" type="xml">
+            <tree string="Tiêu chí đánh giá">
+                <field name="ma_tc"/>
+                <field name="ten_tc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tieu_chi" model="ir.actions.act_window">
+        <field name="name">Tiêu chí đánh giá</field>
+        <field name="res_model">tieu.chi.dg</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
