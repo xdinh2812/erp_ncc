@@ -4,6 +4,7 @@ from odoo import fields, models, api
 class ModelName(models.Model):
     _name = 'thong.tin.ncc'
     _description = 'Thong tin nha cung cap'
+    _rec_name = 'ten_ncc'
 
     ten_ncc = fields.Char(string='Tên nhà cung cấp')
     dia_chi = fields.Char(string='Địa chỉ', required=True)
@@ -19,5 +20,5 @@ class ModelName(models.Model):
         ('3', '3 sao'),
         ('4', '4 sao'),
         ('5', '5 sao')
-    ], string="Đánh giá cuối cùng", default='1')
+    ], string="Đánh giá cuối cùng", default='1', readonly=True)
     danh_gia_moi = fields.Char(string='Đánh giá mới')

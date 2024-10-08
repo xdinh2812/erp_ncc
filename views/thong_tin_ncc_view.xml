@@ -4,11 +4,11 @@
         <field name="name">thong.tin.ncc.form</field>
         <field name="model">thong.tin.ncc</field>
         <field name="arch" type="xml">
-            <form string="Thống tin nhà cung cấp">
+            <form string="Thông tin nhà cung cấp">
                 <sheet>
                     <group>
                         <h1>
-                            <field name="ten_ncc"/>
+                            <field name="ten_ncc" colspan="2"/>
                         </h1>
 
                     </group>

@@ -15,36 +15,35 @@ class CtDanhGiaNCC(models.Model):
         ('4', '4 sao'),
         ('5', '5 sao')
     ], string="Điểm đánh giá",widget='priority', default='1')
-    tong_diem_cuoi_cung = fields.Float(string="Tổng điểm cuối cùng", compute="_compute_tong_diem", readonly=True)
-    kq_danh_gia = fields.Selection([
+    tong_diem_cuoi_cung = fields.Float(string="Tổng điểm cuối cùng", readonly=True)
+    kq_danh_gia = fields.Selection( [
         ('0', '0'),
         ('1', '1 sao'),
         ('2', '2 sao'),
         ('3', '3 sao'),
         ('4', '4 sao'),
         ('5', '5 sao')
-    ], string="Kết quả đánh giá", compute="_compute_ket_qua_danh_gia", default='1', readonly=True)
+    ], string="Kết quả đánh giá", default='1', readonly=True)
 
     thong_tin_phan_hoi = fields.Text(string="Thông tin phản hồi")
 
-    @api.depends('diem_dg')
-    def _compute_tong_diem(self):
-        for record in self:
-            total = sum(int(line.diem_dg) for line in record)
-            count = len(record)
-            record.tong_diem_cuoi_cung = total / count if count > 0 else 0
-
-    @api.depends('tong_diem_cuoi_cung')
-    def _compute_ket_qua_danh_gia(self):
-        for record in self:
-            if record.tong_diem_cuoi_cung >= 4.5:
-                record.kq_danh_gia = '5'
-            elif record.tong_diem_cuoi_cung >= 3.5:
-                record.kq_danh_gia = '4'
-            elif record.tong_diem_cuoi_cung >= 2.5:
-                record.kq_danh_gia = '3'
-            elif record.tong_diem_cuoi_cung >= 1.5:
-                record.kq_danh_gia = '2'
-            else:
-                record.kq_danh_gia = '1'
-
+    # def button_tinh_tong_diem(self):
+    #     total = 0
+    #     count = 0
+    #     for record in self:
+    #         if record.da_duoc_dg:
+    #             total += int(record.diem_dg)
+    #             count += 1
+    #     self.tong_diem_cuoi_cung = total / count if count > 0 else 0
+    #
+    #     # Tính kết quả đánh giá dựa trên tổng điểm cuối cùng
+    #     if self.tong_diem_cuoi_cung >= 4.5:
+    #         self.kq_danh_gia = '5'
+    #     elif self.tong_diem_cuoi_cung >= 3.5:
+    #         self.kq_danh_gia = '4'
+    #     elif self.tong_diem_cuoi_cung >= 2.5:
+    #         self.kq_danh_gia = '3'
+    #     elif self.tong_diem_cuoi_cung >= 1.5:
+    #         self.kq_danh_gia = '2'
+    #     else:
+    #         self.kq_danh_gia = '1'

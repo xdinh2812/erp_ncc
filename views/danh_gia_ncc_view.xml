@@ -3,7 +3,13 @@
         <field name="name">danh.gia.ncc.form</field>
         <field name="model">danh.gia.ncc</field>
         <field name="arch" type="xml">
+
             <form string="Đánh giá nhà cung cấp">
+                <header>
+                    <field name="trang_thai" widget="statusbar" statusbar_visible="draft,submitted,confirmed,refused,cancelled"
+                           statusbar_colors="draft:grey,waiting:blue,confirmed:green,rejected:red,cancelled:black"
+                           style="display: flex; justify-content: flex-end;"/>
+                </header>
                 <header>
                     <button name="action_submit" type="object" string="GỬI DUYỆT" class="btn-primary"/>
                     <button name="action_confirm" type="object" string="XÁC NHẬN" class="btn-primary"/>
@@ -11,44 +17,42 @@
                     <button name="action_cancel" type="object" string="HỦY" class="btn-primary"/>
                 </header>
                 <sheet>
-                    <group>
-                        <group string="THÔNG TIN CHUNG">
+                        <h1>
                             <field name="ma_phieu"/>
-                            <field name="ten_ncc"/>
-                            <field name="email"/>
-                            <field name="dien_thoai"/>
-                            <field name="nganh_kd"/>
-                            <field name="ky_dg" widget="date"/>
-                            <field name="ngay_dg" widget="date"/>
-                            <field name="quan_ly"/>
-                            <field name="trang_thai"/>
+                        </h1>
+                        <group string="THÔNG TIN CHUNG">
+                            <group>
+                                <field name="ten_ncc"/>
+                                <field name="email"/>
+                                <field name="dien_thoai"/>
+                                <field name="nganh_kd"/>
+                            </group>
+                            <group>
+                                <field name="ky_dg" widget="date"/>
+                                <field name="quan_ly"/>
+                                <field name="ngay_dg" widget="date"/>
+                            </group>
                         </group>
-                    </group>
-                    <group string="CHI TIẾT ĐÁNH GIÁ">
-                            <field name="cta_danh_gia_ncc">
-
-                                    <tree string="Chi tiết đánh giá">
-                                        <field name="tieu_chi_dg"/>
-                                        <field name="da_duoc_dg"/>
-                                        <field name="diem_dg" widget="priority"/>
+                        <group string="CHI TIẾT ĐÁNH GIÁ">
+                            <field name="cta_danh_gia_ncc" nolabel="1" colspan="2">
+                                    <tree create="false" delete="false" editable="bottom">
+                                        <field name="tieu_chi_dg" nolabel="1"/>
+                                        <field name="da_duoc_dg" nolabel="1" />
+                                        <field name="diem_dg" widget="priority" nolabel="1" />
                                     </tree>
 
                             </field>
                         </group>
                     <group string="BÁO CÁO ĐÁNH GIÁ">
-                        <field name="ct_danh_gia_ncc">
-                                <tree>
                                     <field name="tong_diem_cuoi_cung"/>
                                     <field name="kq_danh_gia" widget="priority"/>
-                                    <field name="thong_tin_phan_hoi"/>
-                                </tree>
-
-                        </field>
                     </group>
+
                 </sheet>
             </form>
         </field>
-    </record>
+     </record>
+
 
     <record id="view_danh_gia_ncc_tree" model="ir.ui.view">
         <field name="name">danh.gia.ncc.tree</field>

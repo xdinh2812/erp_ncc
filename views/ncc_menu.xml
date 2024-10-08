@@ -5,5 +5,5 @@
 
     <menuitem id="menu_danh_gia_ncc" name="Đánh giá nhà cung cấp" parent="menu_tieu_chi" action="action_danh_gia_ncc"/>
 
-    <menuitem id="menu_thong_tin_ncc" name="Thống tin nhà cung cấp" parent="menu_tieu_chi" action="action_thong_tin_ncc"/>
+    <menuitem id="menu_thong_tin_ncc" name="Thông tin nhà cung cấp" parent="menu_tieu_chi" action="action_thong_tin_ncc"/>
 </odoo>
