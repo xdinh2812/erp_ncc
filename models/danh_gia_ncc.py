@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from . import ct_danh_gia_ncc
 
 
 class DanhGiaNCC(models.Model):
@@ -6,7 +7,7 @@ class DanhGiaNCC(models.Model):
     _description = 'Đánh giá nhà cung cấp'
     _rec_name = 'ma_phieu'
 
-    ma_phieu = fields.Char(string="Mã phiếu", required=True)  # Auto increment logic có thể được thêm vào sau
+    ma_phieu = fields.Char(string="Mã phiếu", readonly=True)  # Auto increment logic có thể được thêm vào sau
     ten_ncc = fields.Many2one('thong.tin.ncc', string='Thông tin NCC')
     email = fields.Char(string="Email", required=True)
     dien_thoai = fields.Integer(string="Điện thoại")
@@ -29,7 +30,7 @@ class DanhGiaNCC(models.Model):
 
     tong_diem_cuoi_cung = fields.Float(string="Tổng điểm cuối cùng", compute="_compute_tong_diem", readonly=True)
     kq_danh_gia = fields.Selection([
-        ('0', '0'),
+        ('0', '0 sao'),
         ('1', '1 sao'),
         ('2', '2 sao'),
         ('3', '3 sao'),
@@ -49,10 +50,9 @@ class DanhGiaNCC(models.Model):
                     count += 1
             record.tong_diem_cuoi_cung = total / count if count > 0 else 0
             if record.ten_ncc:
-                if record.action_refuse():
-                    record.ten_ncc.danh_gia_cuoi_cung = record.kq_danh_gia
+                record.ten_ncc.danh_gia_cuoi_cung = record.kq_danh_gia
 
-    @api.depends('tong_diem_cuoi_cung')
+    @api.depends('ct_danh_gia_ncc.tong_diem_cuoi_cung')
     def _compute_ket_qua_danh_gia(self):
         for record in self:
             if record.tong_diem_cuoi_cung >= 4.5:
@@ -66,22 +66,36 @@ class DanhGiaNCC(models.Model):
             else:
                 record.kq_danh_gia = '1'
 
-    @api.model
-    def create(self, fields):
-        res = super(DanhGiaNCC, self).create(fields)
 
-        # Lấy tất cả các tiêu chí đánh giá từ model tiêu chí
+    @api.model
+    def create(self, vals):
+        last_record = self.search([], order='id desc', limit=1)
+        res = super(DanhGiaNCC, self).create(vals)
+        if last_record and last_record.ma_phieu:
+            last_ma_phieu = last_record.ma_phieu
+            new_number = int(last_ma_phieu[-4:]) + 1
+            vals['ma_phieu'] = f"DGNCC{new_number:04d}"
+        else:
+            vals['ma_phieu'] = "DGNCC0001"
+
+            # Tạo bản ghi mới cho đánh giá nhà cung cấp
+
+
+        # Lấy tất cả các tiêu chí đánh giá từ model 'tieu.chi.dg'
         tieuchidanhgia = self.env['tieu.chi.dg'].search([])
 
+        # Tạo chi tiết đánh giá cho từng tiêu chí
         for tieuchi in tieuchidanhgia:
             self.env['ct.danh.gia.ncc'].create({
-                'danh_gia_ncc_id': res.id,
+                'danh_gia_ncc_id': res.id,  # Gán vào bản ghi đánh giá vừa tạo
                 'tieu_chi_dg': tieuchi.id,
                 'da_duoc_dg': False,
-                'diem_dg': None,
-
+                'diem_dg': None,  # Để None hoặc giá trị mặc định nếu có
             })
+
         return res
+
+
     def action_submit(self):
         self.write({'trang_thai': 'submitted'})
 
@@ -95,15 +109,5 @@ class DanhGiaNCC(models.Model):
     def action_cancel(self):
         self.write({'trang_thai': 'cancelled'})
 
-    @api.model
-    def _generate_ma_phieu(self):
-        # Tìm bản ghi cuối cùng để xác định mã mới
-        last_record = self.search([], order='id desc', limit=1)
-        if last_record:
-            # Lấy mã phiếu cuối cùng và tăng số lên 1
-            last_ma_phieu = last_record.ma_phieu
-            new_number = int(last_ma_phieu[-4:]) + 1  # Lấy 4 ký tự cuối và tăng
-            return f"DGNCC{new_number:04d}"  # Đảm bảo định dạng 4 chữ số
-        else:
-            return "DGNCC0001"  # Nếu không có bản ghi nào, trả về mã đầu tiên
+
 

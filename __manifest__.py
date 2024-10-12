@@ -14,9 +14,11 @@
         'views/danh_gia_ncc_view.xml',
         'views/thong_tin_ncc_view.xml',
         'views/ncc_menu.xml',
+        'data/data.xml',
 
              ],
     'installable': True,
+    'application': True,
     'auto_install': False,
 
 }

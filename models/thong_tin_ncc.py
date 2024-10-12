@@ -1,12 +1,14 @@
 from odoo import fields, models, api
 
 
-class ModelName(models.Model):
+class ThongtinNCC(models.Model):
     _name = 'thong.tin.ncc'
     _description = 'Thong tin nha cung cap'
     _rec_name = 'ten_ncc'
 
+
     ten_ncc = fields.Char(string='Tên nhà cung cấp')
+    loai_hinh = fields.Selection([('ca_nhan', 'Cá nhân'), ('cong_ty', 'Công ty')], string='loại hình', required=True)
     dia_chi = fields.Char(string='Địa chỉ', required=True)
     email = fields.Char(string='Email', required=True)
     dien_thoai = fields.Integer(string='Điện thoại')
