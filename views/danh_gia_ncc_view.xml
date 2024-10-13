@@ -59,7 +59,7 @@
         <field name="model">danh.gia.ncc</field>
         <field name="arch" type="xml">
             <tree string="Đánh giá nhà cung cấp">
-                <field name="ten_ncc"/>
+                <field name="ma_phieu"/>
                 <field name="ky_dg"/>
                 <field name="quan_ly"/>
                 <field name="ngay_dg"/>

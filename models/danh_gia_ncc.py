@@ -69,18 +69,17 @@ class DanhGiaNCC(models.Model):
 
     @api.model
     def create(self, vals):
-        last_record = self.search([], order='id desc', limit=1)
+        if 'ma_phieu' not in vals:
+            existing_numbers = [
+                int(record.ma_phieu[6:]) for record in self.search([])
+                if record.ma_phieu.startswith('DGNCC')
+            ]
+            next_number = 1
+            while next_number in existing_numbers:
+                next_number += 1
+            vals['ma_phieu'] = f'DGNCC{next_number:04}'
+
         res = super(DanhGiaNCC, self).create(vals)
-        if last_record and last_record.ma_phieu:
-            last_ma_phieu = last_record.ma_phieu
-            new_number = int(last_ma_phieu[-4:]) + 1
-            vals['ma_phieu'] = f"DGNCC{new_number:04d}"
-        else:
-            vals['ma_phieu'] = "DGNCC0001"
-
-            # Tạo bản ghi mới cho đánh giá nhà cung cấp
-
-
         # Lấy tất cả các tiêu chí đánh giá từ model 'tieu.chi.dg'
         tieuchidanhgia = self.env['tieu.chi.dg'].search([])
 
