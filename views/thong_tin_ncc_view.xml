@@ -8,7 +8,7 @@
                 <sheet>
                     <group>
                         <h1>
-                            <field name="loai_hinh" widget="radio"/>
+                            <field name="loai_hinh" widget="radio" options="{'horizontal': true}"/>
                             <field name="ten_ncc" colspan="2"/>
                         </h1>
 

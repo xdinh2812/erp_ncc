@@ -26,3 +26,5 @@ class CtDanhGiaNCC(models.Model):
     ], string="Kết quả đánh giá", default='1', readonly=True, compute='_compute_ket_qua_danh_gia')
 
     thong_tin_phan_hoi = fields.Text(string="Thông tin phản hồi")
+
+

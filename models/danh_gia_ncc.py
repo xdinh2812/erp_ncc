@@ -25,10 +25,9 @@ class DanhGiaNCC(models.Model):
 
     # One2many relationship với bảng ct.danh_gia_ncc
     ct_danh_gia_ncc = fields.One2many('ct.danh.gia.ncc', 'danh_gia_ncc_id')
-    cta_danh_gia_ncc = fields.One2many('ct.danh.gia.ncc', 'danh_gia_ncc_id')
     # Tổng điểm cuối cùng và kết quả đánh giá
 
-    tong_diem_cuoi_cung = fields.Float(string="Tổng điểm cuối cùng", compute="_compute_tong_diem", readonly=True)
+    tong_diem_cuoi_cung = fields.Float(string="Tổng điểm cuối cùng", compute='_compute_tong_diem', readonly=True)
     kq_danh_gia = fields.Selection([
         ('0', '0 sao'),
         ('1', '1 sao'),
@@ -36,7 +35,7 @@ class DanhGiaNCC(models.Model):
         ('3', '3 sao'),
         ('4', '4 sao'),
         ('5', '5 sao')
-    ], string="Kết quả đánh giá", compute="_compute_ket_qua_danh_gia", default='1', readonly=True)
+    ], string="Kết quả đánh giá", default='1',compute='_compute_ket_qua_danh_gia', readonly=True)
 
 
     @api.depends('ct_danh_gia_ncc.diem_dg')
@@ -79,7 +78,10 @@ class DanhGiaNCC(models.Model):
                 next_number += 1
             vals['ma_phieu'] = f'DGNCC{next_number:04}'
 
-        res = super(DanhGiaNCC, self).create(vals)
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(DanhGiaNCC, self).create(fields_list)
         # Lấy tất cả các tiêu chí đánh giá từ model 'tieu.chi.dg'
         tieuchidanhgia = self.env['tieu.chi.dg'].search([])
 
@@ -91,9 +93,7 @@ class DanhGiaNCC(models.Model):
                 'da_duoc_dg': False,
                 'diem_dg': None,  # Để None hoặc giá trị mặc định nếu có
             })
-
         return res
-
 
     def action_submit(self):
         self.write({'trang_thai': 'submitted'})

@@ -4,7 +4,7 @@
         <field name="model">danh.gia.ncc</field>
         <field name="arch" type="xml">
 
-            <form string="Đánh giá nhà cung cấp">
+            <form string="Đánh giá nhà cung cấp" attrs="{'readonly': [('trang_thai', '=', 'refused'),('trang_thai', '=', 'cancelled')]}">
                 <header>
                     <field name="trang_thai" widget="statusbar" statusbar_visible="draft,submitted,confirmed,refused,cancelled"
                            statusbar_colors="draft:grey,waiting:blue,confirmed:green,rejected:red,cancelled:black"
@@ -12,8 +12,8 @@
                 </header>
                 <header>
                     <button name="action_submit" type="object" string="GỬI DUYỆT" class="btn-primary"/>
-                    <button name="action_confirm" type="object" string="XÁC NHẬN" class="btn-primary"/>
-                    <button name="action_refuse" type="object" string="TỪ CHỐI" class="btn-danger"/>
+                    <button name="action_confirm" type="object" string="XÁC NHẬN" class="btn-primary" attrs="{'invisible': [('trang_thai', '!=', 'submitted')]}"/>
+                    <button name="action_refuse" type="object" string="TỪ CHỐI" class="btn-danger" attrs="{'invisible': [('trang_thai', '!=', 'submitted')]}"/>
                     <button name="action_cancel" type="object" string="HỦY" class="btn-primary"/>
                 </header>
                 <sheet>
@@ -34,7 +34,7 @@
                             </group>
                         </group>
                         <group string="CHI TIẾT ĐÁNH GIÁ">
-                            <field name="cta_danh_gia_ncc" nolabel="1" colspan="2">
+                            <field name="ct_danh_gia_ncc" nolabel="1" colspan="2">
                                     <tree create="false" delete="false" editable="bottom">
                                         <field name="tieu_chi_dg" nolabel="1"/>
                                         <field name="da_duoc_dg" nolabel="1" />
@@ -44,10 +44,9 @@
                             </field>
                         </group>
                     <group string="BÁO CÁO ĐÁNH GIÁ">
-                                    <field name="tong_diem_cuoi_cung"/>
-                                    <field name="kq_danh_gia" widget="priority"/>
+                        <field name="tong_diem_cuoi_cung"/>
+                        <field name="kq_danh_gia" widget="priority"/>
                     </group>
-
                 </sheet>
             </form>
         </field>

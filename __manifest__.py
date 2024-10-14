@@ -17,6 +17,11 @@
         'data/data.xml',
 
              ],
+
+    # 'assets': {'web.assets_backend': [
+    #     'static/src/css/style.css',
+    #     ],
+    # },
     'installable': True,
     'application': True,
     'auto_install': False,
