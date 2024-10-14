@@ -1,0 +1,8 @@
+h1 {
+    margin: 0; /* Loại bỏ khoảng cách trên dưới */
+    padding: 0; /* Loại bỏ padding */
+    font-size: 24px; /* Kích thước chữ phù hợp */
+    text-align: left; /* Đảm bảo chữ thẳng hàng về bên trái */
+    font-weight: bold; /* Giữ chữ đậm */
+    line-height: 1.5; /* Chiều cao dòng cho chữ dễ nhìn */
+}
