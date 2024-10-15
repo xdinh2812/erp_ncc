@@ -13,7 +13,7 @@
                 <header>
                     <button name="action_submit" type="object" string="GỬI DUYỆT" class="btn-primary"/>
                     <button name="action_confirm" type="object" string="XÁC NHẬN" class="btn-primary" attrs="{'invisible': [('trang_thai', '!=', 'submitted')]}"/>
-                    <button name="action_refuse" type="object" string="TỪ CHỐI" class="btn-danger" attrs="{'invisible': [('trang_thai', '!=', 'submitted')]}"/>
+                    <button name="action_refuse" type="object" string="TỪ CHỐI" class="btn-danger" attrs="{'invisib+le': [('trang_thai', '!=', 'submitted')]}"/>
                     <button name="action_cancel" type="object" string="HỦY" class="btn-primary"/>
                 </header>
                 <sheet>
@@ -34,7 +34,7 @@
                             </group>
                         </group>
                         <group string="CHI TIẾT ĐÁNH GIÁ">
-                            <field name="ct_danh_gia_ncc" nolabel="1" colspan="2">
+                            <field name="ct_danh_gia_ncc" nolabel="1" colspan="2" >
                                     <tree create="false" delete="false" editable="bottom">
                                         <field name="tieu_chi_dg" nolabel="1"/>
                                         <field name="da_duoc_dg" nolabel="1" />

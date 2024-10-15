@@ -65,7 +65,6 @@ class DanhGiaNCC(models.Model):
             else:
                 record.kq_danh_gia = '1'
 
-
     @api.model
     def create(self, vals):
         if 'ma_phieu' not in vals:
@@ -78,11 +77,7 @@ class DanhGiaNCC(models.Model):
                 next_number += 1
             vals['ma_phieu'] = f'DGNCC{next_number:04}'
 
-
-    @api.model
-    def default_get(self, fields_list):
-        res = super(DanhGiaNCC, self).create(fields_list)
-        # Lấy tất cả các tiêu chí đánh giá từ model 'tieu.chi.dg'
+        res = super(DanhGiaNCC, self).create(vals)
         tieuchidanhgia = self.env['tieu.chi.dg'].search([])
 
         # Tạo chi tiết đánh giá cho từng tiêu chí
@@ -94,6 +89,9 @@ class DanhGiaNCC(models.Model):
                 'diem_dg': None,  # Để None hoặc giá trị mặc định nếu có
             })
         return res
+
+
+
 
     def action_submit(self):
         self.write({'trang_thai': 'submitted'})
